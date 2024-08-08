@@ -1,26 +1,28 @@
 <script lang="ts">
-  import { dndzone, type DndEvent } from 'svelte-dnd-action';
+  import { dndzone, TRIGGERS, type DndEvent } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
   import type { Importance, Value } from '../../../lib/types';
   import { Badge } from '$lib/components/ui/badge';
   import { twMerge } from 'tailwind-merge';
   import type { ClassNameValue } from 'tailwind-merge';
+  import { valueStore } from '$lib/store.svelte';
 
   const flipDurationMs = 200;
 
   type Props = {
     items?: Value[];
     thisImportance: Importance | 'Unsorted';
-    updateColumns: (args: { items: Value[]; importance: Importance | 'Unsorted' }) => void;
     className?: ClassNameValue;
   };
 
-  let { items = [], thisImportance, updateColumns, className }: Props = $props();
+  let { items = [], thisImportance, className }: Props = $props();
   let internalItems = $state(items);
 
   function handleSort(e: CustomEvent<DndEvent<Value>>) {
     internalItems = e.detail.items;
-    updateColumns({ items: internalItems, importance: thisImportance });
+    if (e.detail.info.trigger === TRIGGERS.DROPPED_INTO_ZONE) {
+      valueStore.updateImportance(parseInt(e.detail.info.id), thisImportance, true);
+    }
   }
 </script>
 

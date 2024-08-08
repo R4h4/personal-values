@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // import { writable, get, derived } from 'svelte/store';
 // import { browser } from '$app/environment';
 // import type { Value, Importance, Columns } from '../routes/values/types';
@@ -76,7 +77,7 @@
 // export const valueStore = createValueStore();
 
 import { browser } from '$app/environment';
-import type { Value, Importance, Columns } from './types';
+import type { Value, Importance } from './types';
 
 export function createValueStore() {
   let values: Value[] = $state(loadInitialValues());
@@ -105,24 +106,26 @@ export function createValueStore() {
     }
   }
 
+  let veryImportantValues = $derived(
+    values.filter((value) => value.importance === 'Very Important')
+  );
+
   // Derived state for columns
-  const columns = $derived(() => {
-    const veryImportantValues = values.filter((value) => value.importance === 'Very Important');
-    return {
-      'Very Important': veryImportantValues.filter(
-        (value) => value.secondRoundImportance === 'Very Important'
-      ),
-      Important: veryImportantValues.filter((value) => value.secondRoundImportance === 'Important'),
-      'Not Important': veryImportantValues.filter(
-        (value) => value.secondRoundImportance === 'Not Important'
-      ),
-      Unsorted: veryImportantValues.filter(
-        (value) => value.secondRoundImportance === null || value.secondRoundImportance === undefined
-      )
-    } as Columns;
+  const columns = $derived({
+    'Very Important': veryImportantValues.filter(
+      (value) => value.secondRoundImportance === 'Very Important'
+    ),
+    Important: veryImportantValues.filter((value) => value.secondRoundImportance === 'Important'),
+    'Not Important': veryImportantValues.filter(
+      (value) => value.secondRoundImportance === 'Not Important'
+    ),
+    Unsorted: veryImportantValues.filter(
+      (value) => value.secondRoundImportance === null || value.secondRoundImportance === undefined
+    )
   });
 
   function updateImportance(id: number, importance: Importance, isSecondRound: boolean = false) {
+    console.log('updateImportance', id, importance, isSecondRound);
     values = values.map((value) =>
       value.id === id
         ? isSecondRound
@@ -130,7 +133,9 @@ export function createValueStore() {
           : { ...value, importance }
         : value
     );
-    currentIndex++;
+    if (!isSecondRound) {
+      currentIndex++;
+    }
     saveToLocalStorage();
   }
 
@@ -148,10 +153,6 @@ export function createValueStore() {
     currentIndex = 0;
     saveToLocalStorage();
   }
-
-  const veryImportantValues = $derived(() =>
-    values.filter((value) => value.importance === 'Very Important')
-  );
 
   return {
     get values() {

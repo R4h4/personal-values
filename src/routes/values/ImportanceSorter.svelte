@@ -30,7 +30,6 @@
   $effect(() => {
     allValuesVoted = !hasMoreItems;
   });
-  // $inspect(values);
 
   type ImportanceOption = {
     label: Importance;
@@ -53,7 +52,6 @@
       await tick();
 
       transitioning = false;
-      // updateVoteCount();
     }
   }
 
@@ -62,32 +60,7 @@
     console.log(valueStore.values);
     valueStore.setInitialValues(items);
     console.log(valueStore.values);
-    // updateVoteCount();
   }
-
-  // function updateVoteCount(): void {
-  //   voteCount = sortedItems.length;
-  // }
-
-  // onMount(() => {
-
-  //   const unsubscribe = valueStore.subscribe(state => {
-  //     // stateValues = state.values;
-  //     values = [
-  //       ...state.values,
-  //       ...values.filter((item) => !state.values.map((item) => item.id).includes(item.id))
-  //     ];
-
-  //     currentIndex = state.currentIndex;
-  //     updateVoteCount();
-  //   });
-
-  //   if (values.length === 0) {
-  //     valueStore.setInitialValues(items);
-  //   }
-
-  //   return unsubscribe;
-  // });
 </script>
 
 <Card class="bg-white shadow-md w-full max-w-md mb-4 border-none mb-auto">
