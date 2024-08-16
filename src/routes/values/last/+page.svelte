@@ -7,7 +7,7 @@
   import { valueStore } from '$lib/store.svelte';
 
   let nValuesSelected = $derived(valueStore.coreValues.length);
-  let canContinue = $derived((nValuesSelected > 0) && (nValuesSelected <= 5));
+  let canContinue = $derived((nValuesSelected >= 3) && (nValuesSelected <= 5));
 </script>
 
 <div class="flex flex-col h-screen">

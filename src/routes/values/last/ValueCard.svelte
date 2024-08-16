@@ -9,9 +9,6 @@
   } from '$lib/components/ui/card';
   import type { Value } from '$lib/types';
 
-  // export let name: string;
-  // export let description: string;
-  // export let isSelected: boolean;
   type Props = {
     value: Value
     isSelected?: boolean;

@@ -13,7 +13,10 @@
   });
 
   function toggleSelection(value: Value) {
-    valueStore.updateCoreValues(value.id);
+    console.log('Toggling selection for value:', value);
+    if (valueStore.coreValues.length < 5 || valueStore.coreValues.map((value) => value.id).includes(value.id)) {
+      valueStore.updateCoreValues(value.id);
+    }
   }
 </script>
 

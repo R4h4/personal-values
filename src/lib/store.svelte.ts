@@ -151,6 +151,7 @@ export function createValueStore() {
   }
 
   function updateCoreValues(id: number) {
+    console.log('updateCoreValues', id);
     values = values.map((value) =>
       value.id === id
         ? { ...value, isCoreValue: !value.isCoreValue }
