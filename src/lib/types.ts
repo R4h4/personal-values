@@ -4,6 +4,7 @@ type Value = {
   description: string;
   importance: Importance | null;
   secondRoundImportance?: Importance;
+  isCoreValue?: boolean;
 };
 
 type Importance = 'Very Important' | 'Important' | 'Not Important' | 'Unsorted';

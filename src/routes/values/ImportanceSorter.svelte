@@ -22,9 +22,11 @@
   let totalItems: number = $state(items.length);
   let transitioning = $state(false);
 
+  // let { values, currentIndex, clearItems, setInitialValues } = valueStore;
+
   let currentItem = $derived(valueStore.values[valueStore.currentIndex] || null);
   let hasMoreItems = $derived(valueStore.currentIndex < valueStore.values.length);
-  let sortedItems = $derived(valueStore.values.filter((item) => item.importance !== null));
+  let sortedItems = $derived(valueStore.values.filter((item: Value) => item.importance !== null));
   $inspect(sortedItems);
 
   $effect(() => {
@@ -63,6 +65,7 @@
   }
 </script>
 
+<div class="mx-4 h-full">
 <Card class="bg-white shadow-md w-full max-w-md mb-4 border-none mb-auto">
   <CardHeader>
     <div class="flex justify-between items-center mb-8">
@@ -123,3 +126,4 @@
     {/if}
   </CardContent>
 </Card>
+</div>

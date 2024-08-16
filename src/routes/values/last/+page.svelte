@@ -3,31 +3,40 @@
   import { twMerge } from 'tailwind-merge';
   // import { Sparkles } from 'lucide-svelte'
   import ValueSelector from './ValueSelector.svelte';
+  import HeaderSection from '$lib/components/HeaderSection.svelte';
+  import { valueStore } from '$lib/store.svelte';
+
+  let nValuesSelected = $derived(valueStore.coreValues.length);
+  let canContinue = $derived((nValuesSelected > 0) && (nValuesSelected <= 5));
 </script>
 
-<div class="flex flex-col text-center h-screen">
-  <div
-    id="Nav"
-    class="grow flex w-full justify-between h-14 mt-2 mb-4 items-center"
-    style="view-transition-name: nav;"
-  >
+<div class="flex flex-col h-screen">
+  <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4 items-center" style="view-transition-name: nav;">
     <Button variant="link" href="/values/most" class="mr-4 h-14">Back</Button>
   </div>
 
-  <div class="h-full flex flex-col mx-6">
-    <div class="h-36 mx-6 pb-4" style="view-transition-name: page-title;">
-      <h1 class="text-3xl font-bold mb-4">Select your Core Values</h1>
+  <div class="flex flex-col flex-1 overflow-hidden">
+    <HeaderSection
+      title="Select your Core Values"
+      subTitle="Finally, select your final 3-5 values. These are your core values."
+    />
 
-      <p class="text-lg text-gray-600 mb-4">
-        Finally, select your final 3-5 values. These are your core values.
-      </p>
+    <div class="flex-1 overflow-hidden">
+      <ValueSelector />
     </div>
 
-    <ValueSelector />
-
-    <Button variant="default" class={twMerge('w-full text-white mb-6', '')} href="/values/last">
-      <!-- <Sparkles size={36} />  -->
-      Generate
-    </Button>
+    <div class='w-full px-6 pb-6'>
+      <Button
+        variant="default"
+        class={twMerge(
+          'w-full text-white',
+          canContinue ? 'bg-primary' : 'bg-primary/30 pointer-events-none'
+        )}
+        href="/values/most"
+      >
+        <!-- <Sparkles size={36} /> -->
+        Finish
+      </Button>
+    </div>
   </div>
 </div>

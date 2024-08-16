@@ -1,54 +1,46 @@
 <script lang="ts">
   import { valueStore } from '$lib/store.svelte';
   import type { Value } from '$lib/types';
+  import ValueCard from './ValueCard.svelte';
 
-  const { columns } = valueStore;
-
-  let selectedValueIds: number[] = $state([]);
-  let veryImportantValues = $derived(columns['Very Important']);
+  let veryImportantValues = $derived(valueStore.columns['Very Important']);
 
   $effect(() => {
-      if (selectedValueIds.length > 5) {
-          selectedValueIds = selectedValueIds.slice(1);
+      if (valueStore.coreValues.length > 5) {
+        // Update first element to not be selected
+        valueStore.updateCoreValues(valueStore.coreValues[0].id);
       }
   });
 
-  function toggleSelection(id: number) {
-    const index = selectedValueIds.indexOf(id);
-    if (index > -1) {
-        selectedValueIds = [...selectedValueIds.slice(0, index), ...selectedValueIds.slice(index + 1)];
-    } else if (selectedValueIds.length < 5) {
-        selectedValueIds = [...selectedValueIds, id];
-    }
+  function toggleSelection(value: Value) {
+    valueStore.updateCoreValues(value.id);
   }
-
-  $effect(() => {
-      console.log('Selected values:', selectedValueIds);
-  });
-
-function isSelected(id: number): boolean {
-    return selectedValueIds.includes(id);
-}
 </script>
 
-<div class="h-full">
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<div class="flex flex-col h-full relative">
+  <!-- Fading overlay at the top -->
+  <div class="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-background to-transparent z-10"></div>
+
+  <!-- Main content area -->
+  <div class="flex-1 overflow-y-auto pt-4">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pb-16">
       {#each veryImportantValues as value (value.id)}
-          <button
-              class="relative p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
-              class:bg-white={!isSelected(value.id)}
-              class:bg-accent={isSelected(value.id)}
-              class:text-accent-foreground={isSelected(value.id)}
-              class:translate-y-0={!isSelected(value.id)}
-              class:-translate-y-2={isSelected(value.id)}
-              on:click={() => toggleSelection(value.id)}
-          >
-              <h3 class="text-lg font-semibold mb-2">{value.name}</h3>
-              <p class="text-sm">{value.description}</p>
-          </button>
+        <ValueCard
+          value={value}
+          isSelected={valueStore.coreValues.map((value) => value.id).includes(value.id)}
+          {toggleSelection}
+        />
       {/each}
+    </div>
   </div>
-  <p class="mt-4 text-sm text-gray-600">
-      Selected: {selectedValueIds.length} / 5
-  </p>
+
+  <!-- Fading overlay at the bottom -->
+  <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent z-10"></div>
+
+  <!-- Pill counter overlay -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+    <div class="bg-black bg-opacity-50 text-white px-4 py-1 rounded-full text-sm">
+      Selected: {valueStore.coreValues.length} / 5
+    </div>
+  </div>
 </div>

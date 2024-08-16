@@ -11,7 +11,7 @@
   export let description: string;
 </script>
 
-<Card class="w-full max-w-md">
+<Card class="w-full max-w-md text-center">
   <CardHeader>
     <CardTitle>{name}</CardTitle>
   </CardHeader>

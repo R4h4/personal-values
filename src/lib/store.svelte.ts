@@ -80,7 +80,7 @@ import { browser } from '$app/environment';
 import type { Value, Importance } from './types';
 
 export function createValueStore() {
-  let values: Value[] = $state(loadInitialValues());
+  let values = $state(loadInitialValues());
   let currentIndex = $state(loadInitialIndex());
 
   function loadInitialValues(): Value[] {
@@ -110,8 +110,19 @@ export function createValueStore() {
     values.filter((value) => value.importance === 'Very Important')
   );
 
+  const hasUnsortedValues = $derived(
+    veryImportantValues.filter(
+      (value) => value.secondRoundImportance === null || value.secondRoundImportance === undefined
+    ).length > 0
+  );
+
+  const coreValues = $derived(
+    values.filter((value) => value.isCoreValue)
+  );
+
   // Derived state for columns
-  const columns = $derived({
+  const columns = $derived( 
+    {
     'Very Important': veryImportantValues.filter(
       (value) => value.secondRoundImportance === 'Very Important'
     ),
@@ -139,6 +150,15 @@ export function createValueStore() {
     saveToLocalStorage();
   }
 
+  function updateCoreValues(id: number) {
+    values = values.map((value) =>
+      value.id === id
+        ? { ...value, isCoreValue: !value.isCoreValue }
+        : value
+    );
+    saveToLocalStorage();
+  }
+
   function clearItems() {
     values = [];
     currentIndex = 0;
@@ -161,15 +181,22 @@ export function createValueStore() {
     get currentIndex() {
       return currentIndex;
     },
+    get coreValues() {
+      return coreValues;
+    },
     get columns() {
       return columns;
+    },
+    get hasUnsortedValues() {
+        return hasUnsortedValues;
     },
     get veryImportantValues() {
       return veryImportantValues;
     },
     updateImportance,
     clearItems,
-    setInitialValues
+    setInitialValues,
+    updateCoreValues
   };
 }
 

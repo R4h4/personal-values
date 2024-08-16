@@ -1,49 +1,52 @@
 <script lang="ts">
   import { twMerge } from 'tailwind-merge';
   import List from './List.svelte';
-  import type { Value, Importance } from '../../../lib/types';
+  import type { Importance } from '../../../lib/types';
   import { valueStore } from '$lib/store.svelte';
 
-  type Props = {
-    // items?: Value[];
-    hasUnsorted?: boolean;
+  const headerName = {
+    'Very Important': 'More Important',
+    Important: 'Important',
+    'Not Important': 'Less Important'
   };
-  let { hasUnsorted = $bindable(true) }: Props = $props();
-
-  const { columns } = valueStore;
-
-  $effect(() => {
-    hasUnsorted = columns['Unsorted'].length > 0;
-    console.log(columns);
-  });
+  const badgeClasses = {
+    'Very Important': 'bg-accent/90 hover:bg-accent',
+    Important: 'bg-accent/60 hover:bg-accent',
+    'Not Important': 'bg-accent/30 hover:bg-accent'
+  };
 </script>
 
-<div class="flex flex-col h-full w-full">
-  <div class="flex-grow flex flex-col overflow-hidden">
-    <div class="flex-grow flex flex-col p-4 overflow-auto">
-      <div class="flex-grow flex gap-x-2 mb-4">
-        {#each Object.entries(columns) as [importanceString, values]}
-          {@const importance = importanceString as Importance}
-          {#if importance !== 'Unsorted'}
-            <div class="flex-1 bg-white shadow-md p-2 px-auto pt-4 rounded-lg flex flex-col">
-              <h2 class="text-md font-bold mb-2 h-14">{importance}</h2>
-              <div class="flex-grow max-h-72 overflow-x-auto">
-                <List
-                  thisImportance={importance}
-                  items={values}
-                  className="flex flex-col justify-items-start items-center"
-                />
-              </div>
+<div class="flex flex-col h-full">
+  <div class="flex-1 overflow-hidden">
+    <div class="flex h-full gap-x-2 pb-4 m-4">
+      {#each Object.entries(valueStore.columns) as [importanceString, values]}
+        {@const importance = importanceString as Importance}
+        {#if importance !== 'Unsorted'}
+          <div class="flex-1 flex flex-col bg-white shadow-md p-2 px-auto pt-4 mb-4 rounded-lg text-center">
+            <h2 class="text-md font-bold mb-2">
+              {headerName[importance]}
+            </h2>
+            <div class="flex-1 overflow-hidden">
+              <List
+                thisImportance={importance}
+                items={values}
+                className="h-full overflow-y-auto flex flex-col items-center"
+                badgeClass={badgeClasses[importance]}
+              />
             </div>
-          {/if}
-        {/each}
-      </div>
+          </div>
+        {/if}
+      {/each}
     </div>
-    <div class={twMerge('bg-white p-4 border-t h-48', hasUnsorted ? '' : 'hidden')}>
-      <h2 class="text-md font-bold mb-2">Unsorted</h2>
-      <div class="h-32 overflow-auto">
-        <List thisImportance="Unsorted" items={columns['Unsorted']} className="flex flex-wrap" />
-      </div>
+  </div>
+  <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}>
+    <h2 class="text-md font-bold mb-2">Unsorted</h2>
+    <div class="h-32 overflow-auto">
+      <List 
+        thisImportance="Unsorted" 
+        items={valueStore.columns['Unsorted']} 
+        className="flex flex-wrap" 
+      />
     </div>
   </div>
 </div>

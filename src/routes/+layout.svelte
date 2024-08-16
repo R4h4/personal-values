@@ -13,6 +13,6 @@
   <script
     defer
     src="https://umami.karsteneckhardt.com/script.js"
-    data-website-id="f890ed42-9ed1-4a12-bb23-82dfcee4cc20"
+    data-website-id="65b90f91-837c-47e9-baa4-320b337cf841"
   ></script>
 </div>
