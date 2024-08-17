@@ -127,7 +127,8 @@
     {"id": 80, "name": "Tradition", "description": "to follow respected patterns of the past", "importance": null},
     {"id": 81, "name": "Virtue", "description": "to live a morally pure and excellent life", "importance": null},
     {"id": 82, "name": "Wealth", "description": "to have an abundance of money", "importance": null},
-    {"id": 83, "name": "World Peace", "description": "to work to promote peace in the world", "importance": null}
+    {"id": 83, "name": "World Peace", "description": "to work to promote peace in the world", "importance": null},
+    {"id": 84, "name": "Curiosity", "description": "to explore, learn, and satisfy intellectual interests", "importance": null}
   ];
 
   function shuffleArray<T>(array: T[]): T[] {
