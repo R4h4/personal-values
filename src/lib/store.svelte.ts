@@ -1,27 +1,37 @@
 /* eslint-disable prefer-const */
 import { browser } from '$app/environment';
 import type { Value, Importance } from './types';
+import { personalValues } from './values';
 
 export function createValueStore() {
   let values = $state(loadInitialValues());
   let currentIndex = $state(loadInitialIndex());
 
   function moveIndexBackByOne() {
-    currentIndex--;
+    if (currentIndex > 0) {
+      currentIndex--;
+    }
   }
 
   function loadInitialValues(): Value[] {
     if (browser) {
       const storedValues = localStorage.getItem('values');
-      return storedValues ? JSON.parse(storedValues) : [];
+      if (!storedValues) {
+        return personalValues;
+      }
+      const parsedValues = JSON.parse(storedValues);
+      return parsedValues.length > 0 ? parsedValues : personalValues;
     }
-    return [];
+    return personalValues;
   }
 
   function loadInitialIndex(): number {
     if (browser) {
       const storedIndex = localStorage.getItem('currentIndex');
-      return storedIndex ? parseInt(storedIndex, 10) : 0;
+      if (!storedIndex) {
+        return 0;
+      }
+      return currentIndex >= 0 ? currentIndex : 0;
     }
     return 0;
   }
