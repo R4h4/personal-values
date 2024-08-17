@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { twMerge } from 'tailwind-merge';
   import List from './List.svelte';
   import type { Importance } from '../../../lib/types';
   import { valueStore } from '$lib/store.svelte';
+  import { twMerge } from 'tailwind-merge';
 
   const headerName = {
     'Very Important': 'More Important',
@@ -39,9 +39,9 @@
       {/each}
     </div>
   </div>
-  {#if valueStore.hasUnsortedValues}
-    <!-- <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}> -->
-    <div class='bg-white p-4 border-t'>
+  <!-- {#if valueStore.hasUnsortedValues} -->
+    <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}>
+    <!-- <div class='bg-white p-4 border-t'> -->
       <h2 class="text-md font-bold mb-2">Unsorted</h2>
       <div class="h-32 overflow-auto">
         <List 
@@ -51,5 +51,5 @@
         />
       </div>
     </div>
-  {/if}
+  <!-- {/if} -->
 </div>

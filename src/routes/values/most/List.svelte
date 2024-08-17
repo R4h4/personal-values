@@ -6,7 +6,6 @@
   import { twMerge } from 'tailwind-merge';
   import type { ClassNameValue } from 'tailwind-merge';
   import { valueStore } from '$lib/store.svelte';
-  import { send, receive } from '../transition';
 
   const flipDurationMs = 200;
 

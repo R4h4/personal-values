@@ -69,7 +69,10 @@ const config: Config = {
       },
       flexBasis: {
         '1/2-gap-4': 'calc(50% - (1/2 * 1rem))'
-      }
+      },
+      screens: {
+        'betterhover': {'raw': '(hover: hover)'},
+    }
     }
   },
   plugins: [forms, typography]

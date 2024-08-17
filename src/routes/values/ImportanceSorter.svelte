@@ -1,6 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte';
-  import { fade, fly } from 'svelte/transition';
+  import { fade, fly, slide, crossfade } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import ValueCard from './ValueCard.svelte';
   import { Button } from '$lib/components/ui/button';
@@ -9,6 +9,8 @@
   import { valueStore } from '$lib/store.svelte';
   import CardContent from '$lib/components/ui/card/card-content.svelte';
   import { Badge } from '$lib/components/ui/badge';
+  import { twMerge } from 'tailwind-merge';
+  import { Undo2 } from 'lucide-svelte';
 
   type Props = {
     items?: Value[];
@@ -21,7 +23,6 @@
 
   let currentItem = $derived(valueStore.values[valueStore.currentIndex] || null);
   let hasMoreItems = $derived(valueStore.currentIndex < valueStore.values.length);
-  let sortedItems = $derived(valueStore.values.filter((item: Value) => item.importance !== null));
 
   $effect(() => {
     allValuesVoted = !hasMoreItems;
@@ -51,91 +52,95 @@
     }
   }
 
-  function clearVotes(): void {
-    valueStore.clearItems();
-    console.log(valueStore.values);
-    valueStore.setInitialValues(items);
-    console.log(valueStore.values);
+  function moveOneBack(): void {
+    valueStore.moveIndexBackByOne();
   }
+
+  let contentVisible = $state(true);
+
+  async function transitionContent() {
+    contentVisible = false;
+    await tick();
+    contentVisible = true;
+  }
+
+  $effect(() => {
+    if (hasMoreItems !== undefined) {
+      transitionContent();
+    }
+  });
+
+  
 </script>
 
 <div class="flex mx-4 h-full justify-center">
   <Card class="bg-white shadow-md w-full max-w-md mb-4 border-none mb-auto">
     <CardHeader>
-      <div class="flex justify-between items-center mb-8">
+      <div class={twMerge("flex justify-between items-center", hasMoreItems ? "mb-8" : "mb-4")}>
         <p class="text-sm text-gray-600">
           {Math.min(valueStore.currentIndex + 1, totalItems)}/{totalItems}
         </p>
-
-        <Button variant="secondary" on:click={clearVotes}>Clear Votes</Button>
+        <button 
+          class="md:hover:border-accent border border-transparent bg-none p-2 rounded-lg"
+          onclick={moveOneBack}
+        >
+          <Undo2 class="w-6 h-6" />
+      </button>
       </div>
     </CardHeader>
     <CardContent>
-      {#if hasMoreItems}
-      <div class="relative h-52 overflow-hidden">
-        <!-- {#if hasMoreItems} -->
-          {#key valueStore.currentIndex}
-            <div
-              in:fly={{ x: 300, duration: 300, easing: cubicOut }}
-              out:fly={{ x: -300, duration: 300, easing: cubicOut }}
-              class="absolute inset-0"
-            >
-              <ValueCard
-                name={currentItem?.name ?? ''}
-                description={currentItem?.description ?? ''}
-              />
+      {#key hasMoreItems}
+        <div transition:slide={{ duration: 300, easing: cubicOut }}>
+          {#if contentVisible}
+            <div transition:fade={{ duration: 100 }}>
+              {#if hasMoreItems}
+                <div class="relative h-52 overflow-hidden">
+                  {#key valueStore.currentIndex}
+                    <div
+                      in:fly={{ x: 300, duration: 300, easing: cubicOut }}
+                      out:fly={{ x: -300, duration: 300, easing: cubicOut }}
+                      class="absolute inset-0"
+                    >
+                      <ValueCard
+                        name={currentItem?.name ?? ''}
+                        description={currentItem?.description ?? ''}
+                      />
+                    </div>
+                  {/key}
+                </div>
+                <div class="flex flex-col space-y-4 mt-4" transition:fade={{ duration: 200 }}>
+                  {#each importanceOptions as { label, class: className }}
+                    <Button
+                      on:click={() => handleImportance(label)}
+                      class={className}
+                      variant="outline"
+                      disabled={transitioning}
+                    >
+                      {label}
+                    </Button>
+                  {/each}
+                </div>
+              {:else}
+                <h2>
+                  You made it through the first step! Here are your most important values:
+                </h2>
+                <div class="flex flex-wrap overflow-y-auto">
+                  {#each valueStore.veryImportantValues as item (item.id)}
+                  <div 
+                    class="w-fit" 
+                    style={`view-transition-name: value_${item.id};`}
+                  >
+                    <Badge class="p-0.5 px-2 m-1 bg-card bg-accent/90 hover:bg-accent">
+                      {item.name}
+                    </Badge>
+                  </div>
+                  {/each}
+                </div>
+              {/if}
             </div>
-          {/key}
-        <!-- {:else}
-          <div transition:fade={{ duration: 200 }}>
-            <Card class="w-full max-w-md">
-              <CardHeader>
-                <CardTitle>All items sorted!</CardTitle>
-              </CardHeader>
-            </Card>
-          </div>
-        {/if} -->
-      </div>
-      <!-- {#if hasMoreItems} -->
-        <div class="flex flex-col space-y-4 mt-4" transition:fade={{ duration: 200 }}>
-          {#each importanceOptions as { label, class: className }}
-            <Button
-              on:click={() => handleImportance(label)}
-              class={className}
-              variant="outline"
-              disabled={transitioning}
-            >
-              {label}
-            </Button>
-          {/each}
+          {/if}
         </div>
-      {:else}
-        <h2>
-          You made it through the first step! Here are your most important values:
-        </h2>
-        <div class="flex flex-wrap overflow-y-auto">
-          {#each valueStore.veryImportantValues as item (item.id)}
-          <div 
-            class="w-fit" 
-            style={`view-transition-name: value_${item.id}; view-transition-group: value-card;`}
-          >
-            <Badge class="p-0.5 px-2 m-1 bg-card bg-accent/90 hover:bg-accent">
-              {item.name}
-            </Badge>
-          </div>
-          {/each}
-        </div>
-        <!-- {:else}
-        <ul class="list-disc pl-5 mt-4">
-          {#each sortedItems as item}
-            <li class="mb-2">
-              <span class="font-semibold">{item.name}:</span> {item.importance}
-              <p class="text-sm text-gray-600">{item.description}</p>
-            </li>
-          {/each}
-        </ul> -->
-        
-      {/if}
+      {/key}
     </CardContent>
   </Card>
 </div>
