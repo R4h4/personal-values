@@ -6,6 +6,7 @@
   import { twMerge } from 'tailwind-merge';
   import type { ClassNameValue } from 'tailwind-merge';
   import { valueStore } from '$lib/store.svelte';
+  import { send, receive } from '../transition';
 
   const flipDurationMs = 200;
 
@@ -44,7 +45,11 @@
   onfinalize={handleSort}
 >
   {#each internalItems as item (item.id)}
-    <div class="w-fit" animate:flip={{ duration: flipDurationMs }}>
+    <div 
+      class="w-fit" 
+      animate:flip={{ duration: flipDurationMs }}
+      style={`view-transition-name: value_${item.id}; view-transition-group: value-card;`}
+    >
       <Badge class={twMerge("p-0.5 px-2 m-1 bg-card", badgeClass)}>
         {item.name}
       </Badge>

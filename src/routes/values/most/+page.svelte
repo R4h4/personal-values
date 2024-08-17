@@ -15,22 +15,24 @@
 
   <div class="flex flex-col flex-1 overflow-hidden">
     <HeaderSection 
-      title="Select your Core Values" 
-      subTitle="Finally, select your final 3-5 values. These are your core values." 
+      title="Your Most Important Values" 
+      subTitle="Narrow down your values by dragging them into the appropriate columns." 
     />
 
     <div class="flex-1 overflow-hidden">
       <ImportanceSorter />
     </div>
 
-    <div class={twMerge('w-full px-6 pb-6', valueStore.hasUnsortedValues ? 'hidden' : '')}>
-      <Button 
-        variant="default" 
-        class='w-full text-white bg-primary' 
-        href="/values/last"
-      >
-        Continue
-      </Button>
-    </div>
+    {#if !valueStore.hasUnsortedValues}
+      <div class='w-full px-6 pb-6'>
+        <Button 
+          variant="default" 
+          class='w-full text-white bg-primary' 
+          href="/values/last"
+        >
+          Continue
+        </Button>
+      </div>
+    {/if}
   </div>
 </div>

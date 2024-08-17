@@ -27,6 +27,7 @@
     isSelected ? 'bg-accent/70 text-card-foreground scale-105 border-transparent' : 'bg-card text-card-foreground scale-100'
   )} 
   onclick={handleClick}
+  style={`view-transition-name: value_${value.id}; view-transition-group: value-card;`}
 >
   <CardHeader class="p-2 pt-6 relative z-10">
     <CardTitle>{value.name}</CardTitle>

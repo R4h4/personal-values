@@ -39,14 +39,17 @@
       {/each}
     </div>
   </div>
-  <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}>
-    <h2 class="text-md font-bold mb-2">Unsorted</h2>
-    <div class="h-32 overflow-auto">
-      <List 
-        thisImportance="Unsorted" 
-        items={valueStore.columns['Unsorted']} 
-        className="flex flex-wrap" 
-      />
+  {#if valueStore.hasUnsortedValues}
+    <!-- <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}> -->
+    <div class='bg-white p-4 border-t'>
+      <h2 class="text-md font-bold mb-2">Unsorted</h2>
+      <div class="h-32 overflow-auto">
+        <List 
+          thisImportance="Unsorted" 
+          items={valueStore.columns['Unsorted']} 
+          className="flex flex-wrap" 
+        />
+      </div>
     </div>
-  </div>
+  {/if}
 </div>

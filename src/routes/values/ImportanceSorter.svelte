@@ -8,6 +8,7 @@
   import type { Value, Importance } from '../../lib/types';
   import { valueStore } from '$lib/store.svelte';
   import CardContent from '$lib/components/ui/card/card-content.svelte';
+  import { Badge } from '$lib/components/ui/badge';
 
   type Props = {
     items?: Value[];
@@ -15,19 +16,12 @@
   };
   let { items = [], allValuesVoted = $bindable(false) }: Props = $props();
 
-  // const { values, currentIndex, clearItems, setInitialValues } = valueStore;
-  // let values: Value[] = $state(items);
-  // let currentIndex: number = $state(0);
-  // let voteCount: number = $state(0);
   let totalItems: number = $state(items.length);
   let transitioning = $state(false);
-
-  // let { values, currentIndex, clearItems, setInitialValues } = valueStore;
 
   let currentItem = $derived(valueStore.values[valueStore.currentIndex] || null);
   let hasMoreItems = $derived(valueStore.currentIndex < valueStore.values.length);
   let sortedItems = $derived(valueStore.values.filter((item: Value) => item.importance !== null));
-  $inspect(sortedItems);
 
   $effect(() => {
     allValuesVoted = !hasMoreItems;
@@ -77,8 +71,9 @@
       </div>
     </CardHeader>
     <CardContent>
+      {#if hasMoreItems}
       <div class="relative h-52 overflow-hidden">
-        {#if hasMoreItems}
+        <!-- {#if hasMoreItems} -->
           {#key valueStore.currentIndex}
             <div
               in:fly={{ x: 300, duration: 300, easing: cubicOut }}
@@ -91,7 +86,7 @@
               />
             </div>
           {/key}
-        {:else}
+        <!-- {:else}
           <div transition:fade={{ duration: 200 }}>
             <Card class="w-full max-w-md">
               <CardHeader>
@@ -99,9 +94,9 @@
               </CardHeader>
             </Card>
           </div>
-        {/if}
+        {/if} -->
       </div>
-      {#if hasMoreItems}
+      <!-- {#if hasMoreItems} -->
         <div class="flex flex-col space-y-4 mt-4" transition:fade={{ duration: 200 }}>
           {#each importanceOptions as { label, class: className }}
             <Button
@@ -114,6 +109,32 @@
             </Button>
           {/each}
         </div>
+      {:else}
+        <h2>
+          You made it through the first step! Here are your most important values:
+        </h2>
+        <div class="flex flex-wrap overflow-y-auto">
+          {#each valueStore.veryImportantValues as item (item.id)}
+          <div 
+            class="w-fit" 
+            style={`view-transition-name: value_${item.id}; view-transition-group: value-card;`}
+          >
+            <Badge class="p-0.5 px-2 m-1 bg-card bg-accent/90 hover:bg-accent">
+              {item.name}
+            </Badge>
+          </div>
+          {/each}
+        </div>
+        <!-- {:else}
+        <ul class="list-disc pl-5 mt-4">
+          {#each sortedItems as item}
+            <li class="mb-2">
+              <span class="font-semibold">{item.name}:</span> {item.importance}
+              <p class="text-sm text-gray-600">{item.description}</p>
+            </li>
+          {/each}
+        </ul> -->
+        
       {/if}
     </CardContent>
   </Card>
