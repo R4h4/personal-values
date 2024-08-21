@@ -31,7 +31,8 @@ export function createValueStore() {
       if (!storedIndex) {
         return 0;
       }
-      return currentIndex >= 0 ? currentIndex : 0;
+      const parsedIndex = parseInt(storedIndex, 10);
+      return parsedIndex >= 0 ? parsedIndex : 0;
     }
     return 0;
   }

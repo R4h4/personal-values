@@ -14,7 +14,7 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.2.4",
     "@sveltejs/adapter-node": "^5.2.2",
-    "@sveltejs/kit": "^2.5.22",
+    "@sveltejs/kit": "^2.5.24",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.14",
@@ -33,17 +33,17 @@
     "svelte-check": "^3.8.5",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.1.0",
-    "vite": "^5.4.1"
+    "typescript-eslint": "^8.2.0",
+    "vite": "^5.4.2"
   },
   "type": "module",
   "dependencies": {
     "@fontsource/inter": "^5.0.20",
-    "@fontsource/lexend": "^5.0.20",
+    "@fontsource/lexend": "^5.0.21",
     "bits-ui": "^0.21.13",
     "clsx": "^2.1.1",
     "lucide-svelte": "^0.424.0",
-    "svelte-dnd-action": "^0.9.49",
+    "svelte-dnd-action": "^0.9.50",
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1"
   }

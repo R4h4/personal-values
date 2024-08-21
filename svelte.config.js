@@ -14,7 +14,9 @@ const config = {
     adapter: adapter({
       out: 'build'
     })
-  }
+  },
+
+  compilerOptions: {}
 };
 
 export default config;
