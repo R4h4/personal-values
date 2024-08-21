@@ -11,7 +11,7 @@
 </script>
 
 <div class="flex flex-col h-dvh">
-  <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4 items-center" style="view-transition-name: nav;">
+  <div id="Nav" class="flex w-full justify-between h-8 ymd:h-12 mt-4 mb-2 items-center" style="view-transition-name: nav;">
     <Button variant="link" href="/values/most" class="mr-4 h-14">Back</Button>
   </div>
 
