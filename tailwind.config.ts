@@ -68,10 +68,13 @@ const config: Config = {
         display: ['Lexend', ...fontFamily.sans]
       },
       flexBasis: {
-        '1/2-gap-4': 'calc(50% - (1/2 * 1rem))'
+        '1/2-gap-4': 'calc(50% - (1/2 * 1rem))',
+        '1/3-gap-2': 'calc(33.333333% - (1/3 * 0.5rem))',
       },
       screens: {
         'betterhover': {'raw': '(hover: hover)'},
+        'ysm': { 'raw': '(min-height: 667px)' },
+        'ymd': { 'raw': '(min-height: 768px)' },
     }
     }
   },

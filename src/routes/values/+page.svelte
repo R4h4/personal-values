@@ -151,7 +151,7 @@
   let allValuesVoted = $state(false);
 </script>
 
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-svh">
   <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4">
     <Button variant="link" href="/values" class="mr-4 h-14 invisible inactive">Back</Button>
   </div>
@@ -162,11 +162,11 @@
       subTitle="Click on the buttons below to sort the values based on their importance to you." 
     />
 
-    <div class="flex-1 overflow-hidden">
+    <div class="flex-1 overflow-auto">
       <ImportanceSorter items={shuffledValues} bind:allValuesVoted />
     </div>
 
-    <div class='w-full px-6 pb-6'>
+    <div class='w-full p-6 pt-2'>
       <Button
         variant="default"
         class={twMerge(

@@ -76,7 +76,7 @@
 <div class="flex mx-4 h-full justify-center">
   <Card class="bg-white shadow-md w-full max-w-md mb-4 border-none mb-auto">
     <CardHeader>
-      <div class={twMerge("flex justify-between items-center", hasMoreItems ? "mb-8" : "mb-4")}>
+      <div class="flex justify-between items-center">
         <p class="text-sm text-gray-600">
           {Math.min(valueStore.currentIndex + 1, totalItems)}/{totalItems}
         </p>
@@ -94,7 +94,7 @@
           {#if contentVisible}
             <div transition:fade={{ duration: 100 }}>
               {#if hasMoreItems}
-                <div class="relative h-52 overflow-hidden">
+                <div class="relative h-44 ymd:h-52 overflow-hidden">
                   {#key valueStore.currentIndex}
                     <div
                       in:fly={{ x: 300, duration: 300, easing: cubicOut }}
@@ -108,11 +108,11 @@
                     </div>
                   {/key}
                 </div>
-                <div class="flex flex-col space-y-4 mt-4" transition:fade={{ duration: 200 }}>
+                <div class="flex space-x-2 justify-center ymd:space-x-0 ymd:flex-col ymd:space-y-4 mt-4" transition:fade={{ duration: 200 }}>
                   {#each importanceOptions as { label, class: className }}
                     <Button
                       on:click={() => handleImportance(label)}
-                      class={className}
+                      class={twMerge(className, 'w-full h-14 w-24 text-wrap ymd:w-full ymd:h-10')}
                       variant="outline"
                       disabled={transitioning}
                     >

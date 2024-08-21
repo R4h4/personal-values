@@ -8,7 +8,7 @@
   // let hasUnsorted = $state(true);
 </script>
 
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-svh">
   <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4 items-center" style="view-transition-name: nav;">
     <Button variant="link" href="/values" class="mr-4 h-14">Back</Button>
   </div>
@@ -24,7 +24,7 @@
     </div>
 
     {#if !valueStore.hasUnsortedValues}
-      <div class='w-full px-6 pb-6'>
+      <div class='w-full p-6 pt-2'>
         <Button 
           variant="default" 
           class='w-full text-white bg-primary' 

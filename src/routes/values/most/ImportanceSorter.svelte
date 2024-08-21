@@ -16,7 +16,7 @@
   };
 </script>
 
-<div class="flex flex-col h-full">
+<div class="flex flex-col h-full justify-center">
   <div class="flex-1 overflow-hidden">
     <div class="flex h-full gap-x-2 pb-4 m-4">
       {#each Object.entries(valueStore.columns) as [importanceString, values]}
@@ -43,7 +43,7 @@
     <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}>
     <!-- <div class='bg-white p-4 border-t'> -->
       <h2 class="text-md font-bold mb-2">Unsorted</h2>
-      <div class="h-32 overflow-auto">
+      <div class="h-24 ymd:h-32 overflow-auto">
         <List 
           thisImportance="Unsorted" 
           items={valueStore.columns['Unsorted']} 

@@ -13,13 +13,13 @@
 </script>
 
 <div 
-  class={twMerge("h-36 mx-6 pb-4 text-center", className)} 
+  class={twMerge("h-24 ymd:h-36 mx-6 pb-4 text-center", className)} 
   style="view-transition-name: page-title;"
 >
-  <h1 class="text-3xl font-bold mb-4">
+  <h1 class="text-2xl ymd:text-3xl font-bold mb-2 ymd:mb-4">
     {title}
   </h1>
-  <p class="text-lg text-gray-600 mb-4">
+  <p class="text-md ymd:text-lg text-gray-600 mb-4">
     {subTitle}
   </p>
 </div>

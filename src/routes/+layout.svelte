@@ -2,10 +2,10 @@
   import '../app.css';
 </script>
 
-<div class="flex flex-col min-h-screen bg-background">
+<div class="flex flex-col min-h-screen bg-background w-full">
   <!-- <Header /> -->
 
-  <main class="flex flex-col w-full max-w-[1200px]">
+  <main class="flex flex-col w-full max-w-[1200px] mx-auto">
     <slot></slot>
   </main>
 
