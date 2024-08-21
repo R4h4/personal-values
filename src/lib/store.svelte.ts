@@ -48,18 +48,18 @@ export function createValueStore() {
     values.filter((value) => value.importance === 'Very Important')
   );
 
-  const hasUnsortedValues = $derived(
+  let hasUnsortedValues = $derived(
     veryImportantValues.filter(
       (value) => value.secondRoundImportance === null || value.secondRoundImportance === undefined
     ).length > 0
   );
 
-  const coreValues = $derived(
+  let coreValues = $derived(
     values.filter((value) => value.isCoreValue)
   );
 
   // Derived state for columns
-  const columns = $derived( 
+  let columns = $derived( 
     {
     'Very Important': veryImportantValues.filter(
       (value) => value.secondRoundImportance === 'Very Important'

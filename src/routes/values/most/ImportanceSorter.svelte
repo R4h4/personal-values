@@ -39,7 +39,7 @@
       {/each}
     </div>
   </div>
-  <!-- {#if valueStore.hasUnsortedValues} -->
+  {#if valueStore.hasUnsortedValues}
     <div class={twMerge('bg-white p-4 border-t', valueStore.hasUnsortedValues ? '' : 'hidden')}>
     <!-- <div class='bg-white p-4 border-t'> -->
       <h2 class="text-md font-bold mb-2">Unsorted</h2>
@@ -51,5 +51,5 @@
         />
       </div>
     </div>
-  <!-- {/if} -->
+  {/if}
 </div>
