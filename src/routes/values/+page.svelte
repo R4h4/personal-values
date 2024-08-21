@@ -151,7 +151,7 @@
   let allValuesVoted = $state(false);
 </script>
 
-<div class="flex flex-col h-svh">
+<div class="flex flex-col h-dvh">
   <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4">
     <Button variant="link" href="/values" class="mr-4 h-14 invisible inactive">Back</Button>
   </div>

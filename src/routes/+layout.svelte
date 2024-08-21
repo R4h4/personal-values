@@ -2,7 +2,7 @@
   import '../app.css';
 </script>
 
-<div class="flex flex-col min-h-screen bg-background w-full">
+<div class="flex flex-col min-h-dvh bg-background w-full">
   <!-- <Header /> -->
 
   <main class="flex flex-col w-full max-w-[1200px] mx-auto">

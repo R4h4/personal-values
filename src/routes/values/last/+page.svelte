@@ -10,7 +10,7 @@
   let canContinue = $derived((nValuesSelected >= 3) && (nValuesSelected <= 5));
 </script>
 
-<div class="flex flex-col h-svh">
+<div class="flex flex-col h-dvh">
   <div id="Nav" class="flex w-full justify-between h-14 mt-2 mb-4 items-center" style="view-transition-name: nav;">
     <Button variant="link" href="/values/most" class="mr-4 h-14">Back</Button>
   </div>
